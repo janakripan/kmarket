@@ -1,4 +1,4 @@
-.import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import heroBg from "../../assets/home/heroImage.jpg";
 import bottomDesign from "../../assets/ui/bottomShape.png";
 import gsap from "gsap";

@@ -47,42 +47,32 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    let cleanup;
 
-  let cleanup;
+    const setup = () => {
+      if (window.lenis) {
+        const lenis = window.lenis;
 
-  const setup = () => {
+        const handleScroll = ({ scroll }) => {
+          if (scroll > 20) {
+            setShowTopBar(false);
+          } else {
+            setShowTopBar(true);
+          }
+        };
 
-    if (window.lenis) {
+        lenis.on("scroll", handleScroll);
 
-      const lenis = window.lenis;
+        cleanup = () => lenis.off("scroll", handleScroll);
+      } else {
+        requestAnimationFrame(setup);
+      }
+    };
 
-      const handleScroll = ({ scroll }) => {
+    setup();
 
-        if (scroll > 20) {
-          setShowTopBar(false);
-        } else {
-          setShowTopBar(true);
-        }
-
-      };
-
-      lenis.on("scroll", handleScroll);
-
-      cleanup = () => lenis.off("scroll", handleScroll);
-
-    } else {
-
-      requestAnimationFrame(setup);
-
-    }
-
-  };
-
-  setup();
-
-  return () => cleanup?.();
-
-}, []);
+    return () => cleanup?.();
+  }, []);
 
   return (
     <div className="w-full h-fit z-50 fixed top-0 ">
@@ -136,39 +126,39 @@ const Header = () => {
       </div>
 
       {/*====== header navigaton bar======  */}
-      <div className={`w-full h-fit px-16 transition-all duration-300 ease-in-out  ${showTopBar ? "pt-4 translate-y-0" : "pt-0 -translate-y-8"}`}>
+      <div
+        className={`w-full h-fit px-16 transition-all duration-300 ease-in-out  ${showTopBar ? "pt-4 translate-y-0" : "pt-0 -translate-y-8"}`}
+      >
         <GlassSurface
           width="100%"
           height="fit-content"
           borderRadius={8}
           distortionScale={-180}
           blur={25}
-           redOffset={0}
-  greenOffset={10}
-  blueOffset={20}
+          redOffset={0}
+          greenOffset={10}
+          blueOffset={20}
           mixBlendMode="screen"
-          
         >
-         
-         <div className="w-full relative h-fit flex flex-row justify-between items-center px-5 py-3 bg-white/10 rounded-lg backdrop-blur-lg border border-white/40 border-b-2 border-b-white/75 ">
-          {/* left logo  */}
+          <div className="w-full relative h-fit flex flex-row justify-between items-center px-5 py-3 bg-white/10 rounded-lg backdrop-blur-lg border border-white/40 border-b-2 border-b-white/75 ">
+            {/* left logo  */}
 
-          <div className="w-fit h-fit ">
-            <img src={logo} alt="logo image" className="w-12 h-auto " />
-          </div>
+            <div className="w-fit h-fit ">
+              <img src={logo} alt="logo image" className="w-12 h-auto " />
+            </div>
 
-          {/* right nav  */}
+            {/* right nav  */}
 
-          <nav className="w-fit h-fit flex flex-row items-center gap-6 ">
-            <div className=" w-fit flex flex-row items-center gap-2 ">
-              {headerLinks.map((link, index) => {
-                const isActive = activeSection === link.scrollTo;
+            <nav className="w-fit h-fit flex flex-row items-center gap-6 ">
+              <div className=" w-fit flex flex-row items-center gap-2 ">
+                {headerLinks.map((link, index) => {
+                  const isActive = activeSection === link.scrollTo;
 
-                return (
-                  <button
-                    key={index}
-                    onClick={() => scrollToSection(link.scrollTo)}
-                    className={`
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => scrollToSection(link.scrollTo)}
+                      className={`
           px-4 py-1 rounded-lg transition-all  duration-300
 
           ${
@@ -177,24 +167,22 @@ const Header = () => {
               : "text-white hover:bg-white/40"
           }
         `}
-                  >
-                    {link.title}
-                  </button>
-                );
-              })}
-            </div>
+                    >
+                      {link.title}
+                    </button>
+                  );
+                })}
+              </div>
 
-            <button
-              onClick={() => scrollToSection("contact")}
-              className=" px-4 py-2 rounded-lg bg-[#73A700] text-white text-base "
-            >
-              Contact Us
-            </button>
-          </nav>
-        </div>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className=" px-4 py-2 rounded-lg bg-[#73A700] text-white text-base "
+              >
+                Contact Us
+              </button>
+            </nav>
+          </div>
         </GlassSurface>
-
-        
       </div>
     </div>
   );
