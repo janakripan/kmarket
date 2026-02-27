@@ -1,21 +1,69 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import contactBg from "../../assets/home/contact-bg.png";
 import { socialLinks } from "@/index";
 import contactSuite from "../../assets/home/contact-suit-image.png";
 import bottomDesign from "../../assets/ui/bottomShape.png";
 import contact2 from "../../assets/home/contactImage2.jpg";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const sectionRef = useRef(null);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      // Main contact box
+      gsap.from(".contact-box-content", {
+        scale: 0.95,
+        opacity: 0,
+        duration: 1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: ".contact-box",
+          start: "top 75%",
+        },
+      });
+
+      // Bottom section
+      gsap.from(".bottom-contact-image", {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".bottom-contact-card",
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(".bottom-contact-text", {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".bottom-contact-card",
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="w-full h-fit relative   min-h-screen flex flex-col  max-w-screen-2xl mx-auto gap-16  ">
+    <div
+      ref={sectionRef}
+      className="w-full h-fit relative   min-h-screen flex flex-col  max-w-screen-2xl mx-auto gap-16  "
+    >
       {/* ======= contact input section ======= */}
       <div
-        className="w-full h-[80vh] shadow-[0_-15px_40px_15px_#A4F000,0_15px_40px_15px_#A4F000] bg-cover bg-center bg-no-repeat  px-16 py-14  "
+        className="w-full h-[80vh] shadow-[0_-15px_40px_15px_#A4F000,0_15px_40px_15px_#A4F000] bg-cover bg-center bg-no-repeat  px-16 py-14 contact-box "
         style={{
           backgroundImage: `url(${contactBg})`,
         }}
       >
-        <div className="w-full h-full flex flex-row justify-between border-5 border-[#A4F000] backdrop-blur bg-black/12 ">
+        <div className="w-full h-full flex flex-row justify-between border-5 border-[#A4F000] backdrop-blur bg-black/12 contact-box-content">
           {/* left content  */}
           <div className="w-[593px] h-full py-16 px-7 ">
             <div className="w-full h-full flex flex-col justify-center gap-3.75 p-11 items-start ">
@@ -86,8 +134,8 @@ const Contact = () => {
           />
         </div>
 
-        <div className="w-full h-[478px] bg-linear-to-r from-[#787878] via-[#121212] to-[#121212] flex flex-row overflow-hidden rounded-[24px] border border-[#333333] gap-7 ">
-          <div className="w-1/2 h-full ">
+        <div className="w-full h-[478px] bg-linear-to-r from-[#787878] via-[#121212] to-[#121212] flex flex-row overflow-hidden rounded-[24px] border border-[#333333] gap-7 bottom-contact-card ">
+          <div className="w-1/2 h-full bottom-contact-image ">
             <img
               src={contact2}
               alt=""
@@ -95,7 +143,7 @@ const Contact = () => {
             />
           </div>
 
-          <div className=" relative w-1/2 h-full flex items-center justify-center ">
+          <div className=" relative w-1/2 h-full flex items-center justify-center bottom-contact-text ">
             {/* ===gradient overlay ===== */}
             <div className="w-full h-full absolute -right-50 rounded-full  bg-[radial-gradient(circle_at_center,#121212_0%,#333333_25%,transparent_70%)] blur-3xl"></div>
 

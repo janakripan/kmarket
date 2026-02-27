@@ -1,12 +1,54 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import helpImage from "../../assets/home/helpImage.jpg";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Help = () => {
+  const sectionRef = useRef(null);
+  const textRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.from(textRef.current, {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: textRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(imageRef.current, {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: imageRef.current,
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="w-full h-fit max-w-screen-2xl mx-auto px-16 py-11  ">
+    <div
+      ref={sectionRef}
+      className="w-full h-fit max-w-screen-2xl mx-auto px-16 py-11  "
+    >
       <div className="w-full h-fit flex flex-row items-start gap-7 ">
         {/* left contetn  */}
-        <div className="w-1/2 h-fit flex flex-col items-start gap-2.25 ">
+        <div
+          ref={textRef}
+          className="w-1/2 h-fit flex flex-col items-start gap-2.25 "
+        >
           <h5 className="font-dmSans w-fit px-2 pb-1 font-bold text-[#5D666F] text-sm border-b border-[#5E8409] ">
             Why choose
           </h5>
@@ -24,21 +66,24 @@ const Help = () => {
               <p className="w-full h-fit text-left leading-6 text-[#5D666F] font-normal text-sm font-dmSans ">
                 A legacy of service since 1983 — decades of growth and community
                 trust. A wide-reaching network of supermarkets, groceries, and
-                eateries for everyday convenience. <br /> Commitment to innovation and
-                continuously improving customer experiences.
+                eateries for everyday convenience. <br /> Commitment to
+                innovation and continuously improving customer experiences.
               </p>
 
               <p className="w-full h-fit text-left leading-6 text-[#5D666F] font-bold text-sm font-dmSans ">
-                Discover top-tier retail shopping and family-friendly dining options across the UAE with Kmart Group — where quality meets everyday value.
+                Discover top-tier retail shopping and family-friendly dining
+                options across the UAE with Kmart Group — where quality meets
+                everyday value.
               </p>
-
-             
             </div>
           </div>
         </div>
 
         {/* right image  */}
-        <div className="w-1/2 aspect-square max-h-118 flex items-center justify-center relative rounded-3xl overflow-hidden ">
+        <div
+          ref={imageRef}
+          className="w-1/2 aspect-square max-h-118 flex items-center justify-center relative rounded-3xl overflow-hidden "
+        >
           {/* about-image  */}
           <img
             src={helpImage}

@@ -1,13 +1,93 @@
 import { branchesLogo } from "@/index";
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import aboutImage from "../../assets/home/aboutImage.jpg";
 import whatWeDo from "../../assets/home/whatWeDoImage.jpg";
 import { FiPhoneCall } from "react-icons/fi";
 import aboutSign from "../../assets/home/about-sign.png";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const About = ({id}) => {
+gsap.registerPlugin(ScrollTrigger);
+
+const About = ({ id }) => {
+  const sectionRef = useRef(null);
+  const branchesRef = useRef([]);
+  const aboutImageRef = useRef(null);
+  const whatWeDoImageRef = useRef(null);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      // Branches staggered animation
+      gsap.from(branchesRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".branches-container",
+          start: "top 80%",
+        },
+      });
+
+      // About section text
+      gsap.from(".about-text-content", {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".about-text-content",
+          start: "top 80%",
+        },
+      });
+
+      // About section image
+      gsap.from(aboutImageRef.current, {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: aboutImageRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // What we do image
+      gsap.from(whatWeDoImageRef.current, {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: whatWeDoImageRef.current,
+          start: "top 80%",
+        },
+      });
+
+      // What we do text
+      gsap.from(".what-we-do-text", {
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".what-we-do-text",
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div  id={id} className="w-full h-fit min-h-screen flex flex-col gap-16 px-16 ">
+    <div
+      id={id}
+      ref={sectionRef}
+      className="w-full h-fit min-h-screen flex flex-col gap-16 px-16 "
+    >
       {/* ===== logo section =====  */}
 
       <div className="w-full h-fit flex flex-col gap-3.75 ">
@@ -16,10 +96,11 @@ const About = ({id}) => {
           OUR BRANCHES
         </h5>
 
-        <div className="w-full h-fit flex flex-row justify-between">
+        <div className="w-full h-fit flex flex-row justify-between branches-container">
           {branchesLogo.map((itm, idx) => (
             <div
               key={idx}
+              ref={(el) => (branchesRef.current[idx] = el)}
               className="flex items-center justify-center bg-black rounded-xl w-[156px] h-[156px] "
             >
               <img
@@ -37,7 +118,7 @@ const About = ({id}) => {
       {/* about kmart  */}
       <div className="w-full h-fit flex flex-row items-start ">
         {/* left contetn  */}
-        <div className="w-1/2 h-full flex flex-col justify-between items-start gap-24">
+        <div className="w-1/2 h-full flex flex-col justify-between items-start gap-24 about-text-content">
           <div className="w-full h-fit flex flex-col items-start gap-2.25 ">
             <h5 className="font-dmSans w-fit px-2 pb-1 font-bold text-[#5D666F] text-sm border-b border-[#5E8409] ">
               About K MART GROUP
@@ -100,7 +181,10 @@ const About = ({id}) => {
         </div>
 
         {/* right image  */}
-        <div className="w-1/2 aspect-square max-h-118 flex items-center justify-center relative rounded-3xl overflow-hidden ">
+        <div
+          ref={aboutImageRef}
+          className="w-1/2 aspect-square max-h-118 flex items-center justify-center relative rounded-3xl overflow-hidden "
+        >
           {/* white layout  */}
           <div className="absolute inset-0 bg-linear-to-tr from-white/40  to-transparent"></div>
 
@@ -131,11 +215,13 @@ const About = ({id}) => {
         </div>
       </div>
 
-      {/*===== what we do =====  */}
       <div className="w-full h-fit flex flex-row items-start gap-2.25">
         {/* left image  */}
 
-        <div className="w-1/2 aspect-square max-h-[632px] flex items-center justify-center relative rounded-3xl overflow-hidden ">
+        <div
+          ref={whatWeDoImageRef}
+          className="w-1/2 aspect-square max-h-[632px] flex items-center justify-center relative rounded-3xl overflow-hidden "
+        >
           {/* about-image  */}
           <img
             src={whatWeDo}
@@ -146,7 +232,7 @@ const About = ({id}) => {
 
         {/* right content  */}
 
-        <div className="w-1/2 h-full flex flex-col items-start gap-24">
+        <div className="w-1/2 h-full flex flex-col items-start gap-24 what-we-do-text">
           <div className="w-full h-fit flex flex-col items-start gap-2.25 ">
             <h5 className="font-dmSans w-fit px-2 pb-1 font-bold text-[#5D666F] text-sm border-b border-[#5E8409] ">
               What We Do
