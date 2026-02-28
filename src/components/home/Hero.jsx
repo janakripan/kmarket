@@ -45,7 +45,7 @@ const Hero = () => {
   return (
     <div
       ref={containerRef}
-      className="w-full relative h-screen flex flex-col bg-cover bg-center bg-no-repeat max-w-screen-2xl mx-auto "
+      className="w-full relative h-[60vh] md:min-h-screen flex flex-col bg-cover bg-center bg-no-repeat max-w-screen-2xl mx-auto "
       style={{
         backgroundImage: `url(${heroBg})`,
       }}
@@ -59,18 +59,18 @@ const Hero = () => {
 
       {/* ===== content =====  */}
 
-      <div className="w-full h-fit flex flex-col z-10 items-start px-16 pt-40 gap-9 ">
+      <div className="w-full h-fit flex flex-col z-10 items-start px-6 lg:px-16 pt-32 lg:pt-40 gap-6 lg:gap-9 ">
         <h1
           ref={headingRef}
-          className="text-white font-redHat font-bold text-7xl  "
+          className="text-white font-redHat font-bold text-4xl md:text-5xl lg:text-7xl leading-tight  "
         >
-          Building a <br />
+          Building a <br className="hidden lg:block" />
           Legacy of Trust
         </h1>
 
         <p
           ref={textRef}
-          className="text-left text-balance text-[#F1F1F1] max-w-[840px] text-xl "
+          className="text-left text-balance text-[#F1F1F1] max-w-[840px] text-base lg:text-xl leading-relaxed "
         >
           Kmart Group, founded by the visionary Late Moossa Haji Kombantavida 41
           years ago in 1983, has made a significant mark on the UAE's business

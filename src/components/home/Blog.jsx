@@ -56,7 +56,7 @@ const Blog = () => {
         <img
           src={bottomDesign}
           alt=""
-          className="w-full object-cover object-center "
+          className="w-full object-cover object-bottom lg:object-center "
         />
       </div>
 
@@ -64,22 +64,22 @@ const Blog = () => {
       <div className="absolute inset-0 bg-black/40 " />
 
       {/* ====== content ======  */}
-      <div className="w-full p-16 h-full z-10 flex flex-col gap-5.5 items-start ">
+      <div className="w-full px-6 lg:px-16 py-16 lg:py-24 h-full z-10 flex flex-col gap-8 lg:gap-12 items-start  ">
         {/* ===== header =====  */}
-        <div className="w-fit h-fit flex flex-col gap-7 blog-header ">
+        <div className="w-fit h-fit flex flex-col gap-4 lg:gap-7 blog-header ">
           <div className="flex flex-col w-fit">
-            <h5 className="font-dmSans w-fit px-2.75 pb-1 font-bold text-white text-sm border-b border-[#A4F000] uppercase ">
+            <h5 className="font-dmSans w-fit px-2.75 pb-1 font-bold text-white text-xs lg:text-sm border-b border-[#A4F000] uppercase ">
               Business Sector
             </h5>
-            <div className="w-full h-2.25 bg-[#727171]"></div>
+            <div className="w-full h-1 lg:h-2.25 bg-[#727171]"></div>
           </div>
 
-          <h2 className="text-[#DDDDDD] font-bold text-[48px] font-redHat leading-14 ">
+          <h2 className="text-[#DDDDDD] font-bold text-3xl lg:text-[48px] font-redHat leading-tight lg:leading-14 ">
             Our Core Areas
           </h2>
         </div>
 
-        <div className="w-full h-fit flex flex-row justify-between blog-cards-container ">
+        <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:justify-between blog-cards-container pb-2 ">
           {blogData.map((itm, idx) => (
             <div key={idx} ref={(el) => (cardsRef.current[idx] = el)}>
               <BlogCard item={itm} />
