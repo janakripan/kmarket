@@ -96,7 +96,7 @@ const About = ({ id }) => {
           OUR BRANCHES
         </h5>
 
-        <div className="w-full h-fit grid grid-cols-2 md:grid-cols-3 lg:flex lg:flex-row lg:justify-between gap-4 lg:gap-0 branches-container">
+        <div className="w-full h-fit grid grid-cols-2 md:grid-cols-3 lg:flex lg:flex-row lg:justify-between gap-4 lg:gap-0 branches-container overflow-hidden">
           {branchesLogo.map((itm, idx) => (
             <div
               key={idx}
